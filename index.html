@@ -3,406 +3,611 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Shagun Khedia — Analytics &amp; Risk Portfolio</title>
-<meta name="description" content="Analytics, credit risk and finance portfolio. Default prediction, valuation and pricing projects.">
+<title>Shagun Khedia — Credit Risk &amp; Analytics</title>
+<meta name="description" content="Credit risk, valuation and pricing. I build models that change what a business does next.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;0,9..144,700;1,9..144,600&family=Inter+Tight:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --ink:#1C1338;
-  --soft:#5B5378;
-  --bg:#FBF9FF;
-  --card:#FFFFFF;
-  --line:#E7E0F5;
-  --violet:#6B4EFF;
-  --coral:#FF6B57;
-  --teal:#0FB5A6;
-  --amber:#FFB020;
-  --pink:#F250A8;
-  --disp:"Bricolage Grotesque",system-ui,sans-serif;
-  --ui:"Plus Jakarta Sans",system-ui,sans-serif;
-  --mono:"IBM Plex Mono",ui-monospace,monospace;
+  --deep:#061619;
+  --deep-2:#0A2429;
+  --ink:#0C2A31;
+  --paper:#EDF0EF;
+  --paper-2:#DFE5E3;
+  --bone:#F8FAF9;
+  --mute:#5C7078;
+  --mute-d:#88A2A8;
+  --flag:#E2431C;
+  --amber:#EDA320;
+  --safe:#17A08A;
+  --disp:"Fraunces",Georgia,serif;
+  --ui:"Inter Tight",system-ui,sans-serif;
+  --mono:"JetBrains Mono",ui-monospace,monospace;
+  --pad:clamp(20px,5vw,76px);
 }
 *{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{
-  margin:0;background:var(--bg);color:var(--ink);
-  font-family:var(--ui);font-size:17px;line-height:1.65;overflow-x:hidden;
-  -webkit-font-smoothing:antialiased;
-}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--ui);
+  font-size:17px;line-height:1.6;overflow-x:hidden;-webkit-font-smoothing:antialiased}
 a{color:inherit}
-:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:6px}
-.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+:focus-visible{outline:2px solid var(--flag);outline-offset:4px}
+.wrap{max-width:1240px;margin:0 auto;padding-inline:var(--pad)}
 
-/* ambient gradient blobs */
-.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none}
-.blob.a{width:520px;height:520px;background:#C9BCFF;top:-180px;left:-160px}
-.blob.b{width:460px;height:460px;background:#FFD5C4;top:340px;right:-200px}
-.blob.c{width:520px;height:520px;background:#B7F2EA;top:1500px;left:-220px}
-.blob.d{width:420px;height:420px;background:#FFD9F0;top:2600px;right:-180px}
-main,nav,footer{position:relative;z-index:1}
+/* scroll progress = a threshold line */
+#prog{position:fixed;top:0;left:0;height:2px;width:0;background:var(--flag);z-index:99}
 
-/* ---------- navbar ---------- */
-nav{
-  position:sticky;top:0;z-index:50;
-  backdrop-filter:blur(14px);background:rgba(251,249,255,.78);
-  border-bottom:1px solid var(--line);
-}
-.nav-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
-.brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;text-decoration:none}
-.mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--pink) 55%,var(--coral));
-  display:grid;place-items:center;color:#fff;font-family:var(--mono);font-size:13px;font-weight:600}
-.nav-links{display:flex;gap:26px;font-size:15px;font-weight:500}
-.nav-links a{text-decoration:none;color:var(--soft);transition:color .18s}
-.nav-links a:hover{color:var(--violet)}
-.btn{
-  display:inline-block;text-decoration:none;font-weight:600;font-size:15px;
-  padding:10px 20px;border-radius:999px;color:#fff;
-  background:linear-gradient(120deg,var(--violet),var(--pink));
-  box-shadow:0 6px 18px rgba(107,78,255,.32);transition:transform .18s,box-shadow .18s;
-}
-.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(107,78,255,.4)}
-.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
-.btn.ghost:hover{border-color:var(--violet);color:var(--violet)}
+/* ---------- nav ---------- */
+.nav{position:fixed;top:0;left:0;right:0;z-index:90;height:62px;display:flex;align-items:center;
+  transition:background .35s,border-color .35s;border-bottom:1px solid transparent}
+.nav.stuck{background:rgba(6,22,25,.9);backdrop-filter:blur(14px);border-bottom-color:rgba(255,255,255,.1)}
+.nav-in{max-width:1240px;margin:0 auto;padding:0 var(--pad);width:100%;
+  display:flex;align-items:center;justify-content:space-between;gap:20px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:var(--bone);
+  font-family:var(--mono);font-size:12.5px;letter-spacing:.15em;text-transform:uppercase}
+.brand i{width:8px;height:8px;background:var(--flag);display:block;font-style:normal}
+.nav-links{display:flex;gap:32px;font-family:var(--mono);font-size:11.5px;letter-spacing:.16em;text-transform:uppercase}
+.nav-links a{color:var(--mute-d);text-decoration:none;position:relative;padding:6px 0}
+.nav-links a::after{content:"";position:absolute;left:0;bottom:0;width:0;height:1px;background:var(--flag);transition:width .3s cubic-bezier(.2,.8,.2,1)}
+.nav-links a:hover{color:var(--bone)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{font-family:var(--mono);font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--bone);border:1px solid rgba(255,255,255,.3);padding:9px 17px;text-decoration:none;transition:.25s}
+.nav-cta:hover{background:var(--flag);border-color:var(--flag);color:#fff}
 
-/* ---------- hero ---------- */
-.hero{text-align:center;padding:88px 0 64px}
-.pill{
-  display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
-  letter-spacing:.08em;text-transform:uppercase;background:var(--card);border:1px solid var(--line);
-  padding:8px 16px;border-radius:999px;color:var(--soft);box-shadow:0 2px 10px rgba(28,19,56,.05)
-}
-.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(15,181,166,.18)}
-.hero h1{
-  font-family:var(--disp);font-weight:800;letter-spacing:-.035em;
-  font-size:clamp(38px,6.4vw,72px);line-height:1.02;margin:26px auto 22px;max-width:16ch;
-}
-.grad{background:linear-gradient(100deg,var(--violet),var(--pink) 45%,var(--coral));
-  -webkit-background-clip:text;background-clip:text;color:transparent}
-.hero p{font-size:19px;color:var(--soft);max-width:60ch;margin:0 auto 34px}
-.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+/* ---------- hero = the instrument ---------- */
+.hero{background:var(--deep);color:var(--bone);min-height:100svh;display:flex;flex-direction:column;
+  justify-content:center;padding:96px 0 0;position:relative}
+.hero-top{display:grid;grid-template-columns:1.5fr .8fr;gap:clamp(24px,4vw,64px);align-items:end;
+  padding-bottom:clamp(26px,3.6vw,44px)}
+.avail{display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:11px;
+  letter-spacing:.2em;text-transform:uppercase;color:var(--mute-d);margin-bottom:26px}
+.avail i{width:6px;height:6px;border-radius:50%;background:var(--safe);display:block;font-style:normal;
+  box-shadow:0 0 0 0 rgba(23,160,138,.55);animation:pulse 2.8s infinite}
+@keyframes pulse{70%{box-shadow:0 0 0 8px rgba(23,160,138,0)}100%{box-shadow:0 0 0 0 rgba(23,160,138,0)}}
+h1{font-family:var(--disp);font-weight:600;font-size:clamp(38px,6.6vw,84px);line-height:.96;
+  letter-spacing:-.038em;margin:0;max-width:14ch}
+h1 em{font-style:italic;font-weight:600;color:var(--flag)}
+.hero-meta{font-family:var(--mono);font-size:12px;line-height:1.95;color:var(--mute-d);
+  border-left:1px solid rgba(255,255,255,.16);padding-left:20px}
+.hero-meta b{color:var(--bone);font-weight:500;display:block;letter-spacing:.04em}
+.hero-meta em{font-style:normal;display:block;height:12px}
 
-/* ---------- stat strip ---------- */
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:60px}
-.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 18px;text-align:left;position:relative;overflow:hidden}
-.stat::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:4px}
-.stat:nth-child(1)::before{background:linear-gradient(90deg,var(--violet),var(--pink))}
-.stat:nth-child(2)::before{background:linear-gradient(90deg,var(--coral),var(--amber))}
-.stat:nth-child(3)::before{background:linear-gradient(90deg,var(--teal),var(--violet))}
-.stat:nth-child(4)::before{background:linear-gradient(90deg,var(--amber),var(--pink))}
-.stat .n{font-family:var(--mono);font-weight:600;font-size:27px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block}
-.stat .l{font-size:13.5px;color:var(--soft);margin-top:6px;display:block;line-height:1.45}
+/* instrument */
+.inst{border-top:1px solid rgba(255,255,255,.14);padding-top:18px}
+.inst-head{display:flex;justify-content:space-between;align-items:baseline;gap:16px;flex-wrap:wrap;
+  font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--mute-d)}
+.inst-head b{color:var(--amber);font-weight:500;display:inline-flex;align-items:center;gap:8px}
+.inst-head b::before{content:"";width:14px;height:1px;background:var(--amber)}
+.legend{display:flex;gap:18px;flex-wrap:wrap}
+.legend s{text-decoration:none;display:inline-flex;align-items:center;gap:7px}
+.legend s i{width:10px;height:10px;display:block;font-style:normal}
+.plot{width:100%;height:auto;display:block;cursor:ew-resize;touch-action:none;margin-top:6px}
+.plot:focus-visible{outline:2px solid var(--flag);outline-offset:6px}
 
-/* ---------- sections ---------- */
-section{padding:76px 0}
-.sec-head{text-align:center;max-width:60ch;margin:0 auto 44px}
-.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin:0 0 14px}
-.sec-head h2{font-family:var(--disp);font-weight:800;letter-spacing:-.03em;font-size:clamp(28px,4vw,42px);line-height:1.1;margin:0 0 14px}
-.sec-head p{color:var(--soft);margin:0;font-size:17.5px}
+.readout{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.13);
+  border-top:1px solid rgba(255,255,255,.13);border-bottom:1px solid rgba(255,255,255,.13)}
+.ro{background:var(--deep);padding:16px 4px 18px 0}
+.ro .v{font-family:var(--mono);font-weight:700;font-size:clamp(20px,2.7vw,32px);letter-spacing:-.03em;
+  display:block;font-variant-numeric:tabular-nums;line-height:1}
+.ro .k{font-family:var(--mono);font-size:10px;letter-spacing:.15em;text-transform:uppercase;
+  color:var(--mute-d);margin-top:9px;display:block;line-height:1.5}
+.ro:nth-child(1) .v{color:var(--amber)}
+.ro:nth-child(2) .v{color:var(--safe)}
+.ro:nth-child(3) .v{color:var(--flag)}
+.ro:nth-child(2),.ro:nth-child(3),.ro:nth-child(4){padding-left:20px}
 
-/* ---------- project cards ---------- */
-.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
-.card{
-  background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;
-  display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s;
-}
-.card:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(28,19,56,.11);border-color:transparent}
-.card-viz{height:172px;display:grid;place-items:center;padding:18px;position:relative}
-.v1{background:linear-gradient(135deg,#EDE7FF,#FFE3F3)}
-.v2{background:linear-gradient(135deg,#FFEEE6,#FFF6DA)}
-.v3{background:linear-gradient(135deg,#DFF6F2,#E7ECFF)}
-.v4{background:linear-gradient(135deg,#FFE9F5,#EFE6FF)}
-.card-viz svg{width:100%;height:100%;overflow:visible}
-.card-body{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
-.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
-.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
-  padding:5px 11px;border-radius:999px;background:#F3EFFF;color:var(--violet)}
-.tag.o{background:#FFF0EA;color:#E0512F}
-.tag.t{background:#E4F7F4;color:#0A8C80}
-.card h3{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.25;margin:0 0 11px}
-.card p{margin:0 0 16px;color:var(--soft);font-size:15.5px;flex:1}
-.metrics{display:flex;flex-wrap:wrap;gap:14px 22px;padding-top:16px;border-top:1px solid var(--line);margin-bottom:16px}
-.metrics div{min-width:0}
-.metrics .m{font-family:var(--mono);font-weight:600;font-size:17px;display:block;font-variant-numeric:tabular-nums}
-.metrics .k{font-size:11.5px;color:var(--soft);letter-spacing:.03em}
-.card-link{font-weight:600;font-size:15px;text-decoration:none;color:var(--violet);display:inline-flex;gap:7px;align-items:center}
-.card-link .arw{transition:transform .2s;display:inline-block}
-.card:hover .card-link .arw{transform:translateX(5px)}
+.verdict{display:flex;gap:18px;align-items:flex-start;padding:18px 0 26px;max-width:78ch}
+.verdict b{font-family:var(--mono);font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--flag);white-space:nowrap;padding-top:4px;border-left:2px solid var(--flag);padding-left:12px}
+.verdict span{color:var(--mute-d);font-size:15.5px;line-height:1.55}
+
+/* ---------- bands ---------- */
+.band{padding-block:clamp(72px,10vw,140px)}
+.band.dark{background:var(--deep-2);color:var(--bone)}
+.band.light{background:var(--paper)}
+.band.bone{background:var(--bone)}
+.eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.24em;text-transform:uppercase;
+  color:var(--flag);margin:0 0 20px;display:flex;align-items:center;gap:14px}
+.eyebrow::after{content:"";flex:1;height:1px;background:currentColor;opacity:.25;max-width:90px}
+h2{font-family:var(--disp);font-weight:600;font-size:clamp(29px,4.6vw,54px);line-height:1.02;
+  letter-spacing:-.032em;margin:0;max-width:19ch}
+h3{font-family:var(--disp);font-weight:600;font-size:clamp(21px,2.7vw,31px);line-height:1.14;
+  letter-spacing:-.024em;margin:0}
+.lede{font-size:clamp(16.5px,1.6vw,19px);color:var(--mute);max-width:56ch;margin:22px 0 0}
+.band.dark .lede{color:var(--mute-d)}
+
+/* ---------- records ---------- */
+.record{display:grid;grid-template-columns:1fr 1fr;gap:clamp(26px,4.5vw,72px);align-items:center;
+  padding-block:clamp(44px,6vw,84px);border-top:1px solid var(--paper-2)}
+.record:first-of-type{border-top:0;padding-top:clamp(20px,3vw,44px)}
+.record:nth-of-type(even) .viz{order:2}
+.viz{background:var(--bone);border:1px solid var(--paper-2);padding:24px;transition:transform .5s cubic-bezier(.2,.8,.2,1)}
+.record:hover .viz{transform:translateY(-6px)}
+.viz svg{width:100%;height:auto;display:block}
+.yr{font-family:var(--mono);font-size:11px;letter-spacing:.2em;color:var(--mute);margin-bottom:14px;display:block}
+.tagrow{display:flex;gap:7px;flex-wrap:wrap;margin-top:16px}
+.tagrow span{font-family:var(--mono);font-size:10px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--mute);border:1px solid var(--paper-2);padding:5px 10px;background:var(--bone)}
+.record p{margin:18px 0 0;color:var(--mute);max-width:54ch}
+.figs{display:flex;flex-wrap:wrap;gap:24px 30px;margin-top:28px;padding-top:22px;border-top:1px solid var(--paper-2)}
+.figs .n{font-family:var(--mono);font-weight:700;font-size:21px;display:block;font-variant-numeric:tabular-nums;letter-spacing:-.02em}
+.figs .l{font-family:var(--mono);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--mute)}
+.golink{display:inline-flex;align-items:center;gap:10px;margin-top:26px;text-decoration:none;
+  font-family:var(--mono);font-size:12px;letter-spacing:.12em;text-transform:uppercase;
+  border-bottom:1px solid var(--flag);padding-bottom:6px;transition:gap .28s,color .28s}
+.golink:hover{gap:18px;color:var(--flag)}
+
+/* ---------- principles ---------- */
+.principles{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,.13);
+  border:1px solid rgba(255,255,255,.13);margin-top:48px}
+.pr{background:var(--deep-2);padding:34px 28px;transition:background .35s}
+.pr:hover{background:var(--deep)}
+.pr q{font-family:var(--disp);font-style:italic;font-size:clamp(19px,2.2vw,25px);line-height:1.22;
+  display:block;quotes:none;letter-spacing:-.02em}
+.pr p{margin:18px 0 0;color:var(--mute-d);font-size:15px}
 
 /* ---------- about ---------- */
-.about{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:start}
-.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px}
-.panel h3{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0 0 16px}
-.panel p{color:var(--soft);margin:0 0 15px}
-.panel p:last-child{margin-bottom:0}
-.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
-.tools span{font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:999px;background:linear-gradient(120deg,#F4F0FF,#FFF0F8);border:1px solid var(--line)}
-.row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
-.row:last-child{border-bottom:0}
-.row span:last-child{color:var(--soft);font-family:var(--mono);font-size:13px;white-space:nowrap}
-.panel h4{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--coral);margin:24px 0 4px;font-weight:600}
-.panel h4:first-of-type{margin-top:0}
+.about{display:grid;grid-template-columns:1.15fr .85fr;gap:clamp(30px,5vw,72px);margin-top:48px}
+.about p{color:var(--mute);margin:0 0 17px;max-width:52ch}
+.about p:last-of-type{margin-bottom:0}
+.skills{display:flex;flex-wrap:wrap;gap:7px;margin-top:28px}
+.skills span{font-family:var(--mono);font-size:11px;letter-spacing:.06em;background:var(--paper);
+  border:1px solid var(--paper-2);padding:7px 12px}
+.ledger{font-family:var(--mono);font-size:12.5px}
+.ledger h4{font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:var(--flag);margin:30px 0 6px;font-weight:500}
+.ledger h4:first-child{margin-top:0}
+.ledger .row{display:flex;justify-content:space-between;gap:16px;padding:11px 0;border-bottom:1px solid var(--paper-2)}
+.ledger .row span:last-child{color:var(--mute);white-space:nowrap}
 
 /* ---------- contact ---------- */
-.cta-band{
-  background:linear-gradient(125deg,var(--violet),var(--pink) 58%,var(--coral));
-  border-radius:32px;padding:60px 40px;text-align:center;color:#fff;
-  box-shadow:0 26px 60px rgba(107,78,255,.28)
-}
-.cta-band h2{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4.2vw,42px);letter-spacing:-.03em;margin:0 0 14px;line-height:1.1}
-.cta-band p{margin:0 auto 30px;max-width:48ch;opacity:.94;font-size:17.5px}
-.cta-band .btn{background:#fff;color:var(--violet);box-shadow:0 8px 22px rgba(0,0,0,.16)}
-.cta-band .btn.ghost{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.5)}
+.cbox{display:flex;flex-wrap:wrap;gap:12px;margin-top:38px}
+.cbtn{font-family:var(--mono);font-size:12.5px;letter-spacing:.1em;text-transform:uppercase;
+  text-decoration:none;padding:16px 26px;border:1px solid rgba(255,255,255,.26);color:var(--bone);transition:.25s}
+.cbtn:hover{background:var(--bone);color:var(--deep);border-color:var(--bone)}
+.cbtn.solid{background:var(--flag);border-color:var(--flag);color:#fff}
+.cbtn.solid:hover{background:#fff;color:var(--flag)}
+footer{background:var(--deep-2);color:var(--mute-d);font-family:var(--mono);font-size:11px;
+  letter-spacing:.12em;padding:24px 0 40px;border-top:1px solid rgba(255,255,255,.09)}
+.foot-in{display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap;text-transform:uppercase}
 
-footer{padding:34px 0 44px;text-align:center;color:var(--soft);font-size:14px}
-footer a{color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line)}
-footer a:hover{color:var(--violet)}
-
-/* ---------- scroll reveal ---------- */
-.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
-.reveal.in{opacity:1;transform:none}
+/* ---------- reveal ---------- */
+.rv{opacity:0;transform:translateY(24px);transition:opacity .85s cubic-bezier(.16,.84,.3,1),transform .85s cubic-bezier(.16,.84,.3,1)}
+.rv.in{opacity:1;transform:none}
+.boot{opacity:0;transform:translateY(16px)}
+.boot.on{opacity:1;transform:none;transition:opacity .9s cubic-bezier(.16,.84,.3,1),transform .9s cubic-bezier(.16,.84,.3,1)}
 @media (prefers-reduced-motion:reduce){
   html{scroll-behavior:auto}
-  .reveal{opacity:1;transform:none;transition:none}
-  *{animation:none!important}
-  .card:hover,.btn:hover{transform:none}
+  .rv,.boot{opacity:1!important;transform:none!important;transition:none!important}
+  .avail i{animation:none}
+  .record:hover .viz{transform:none}
 }
-
-/* ---------- responsive ---------- */
-@media (max-width:900px){
-  .grid{grid-template-columns:1fr}
-  .about{grid-template-columns:1fr}
-  .stats{grid-template-columns:repeat(2,1fr)}
+@media (max-width:960px){
+  .hero{min-height:auto;padding-top:88px;padding-bottom:8px}
+  .hero-top{grid-template-columns:1fr;align-items:start}
+  .hero-meta{border-left:0;border-top:1px solid rgba(255,255,255,.16);padding:18px 0 0}
+  .record,.about{grid-template-columns:1fr}
+  .record .viz,.record:nth-of-type(even) .viz{order:-1}
+  .principles{grid-template-columns:1fr}
+  .readout{grid-template-columns:repeat(2,1fr)}
+  .ro{padding-left:0!important;padding-block:14px}
+  .ro:nth-child(2),.ro:nth-child(4){padding-left:18px!important}
   .nav-links{display:none}
-  .hero{padding:56px 0 40px}
-  .cta-band{padding:44px 24px;border-radius:24px}
-  .blob{display:none}
+  .verdict{flex-direction:column;gap:12px}
 }
 </style>
 </head>
 <body>
+<div id="prog"></div>
 
-<div class="blob a"></div><div class="blob b"></div><div class="blob c"></div><div class="blob d"></div>
-
-<nav>
+<nav class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="#top"><span class="mark">SK</span>Shagun Khedia</a>
-    <div class="nav-links">
-      <a href="#work">Work</a>
-      <a href="#about">About</a>
-      <a href="#contact">Contact</a>
-    </div>
-    <a class="btn" href="#contact">Get in touch</a>
+    <a class="brand" href="#top"><i></i>Shagun Khedia</a>
+    <div class="nav-links"><a href="#work">Work</a><a href="#approach">Approach</a><a href="#about">About</a></div>
+    <a class="nav-cta" href="#contact">Get in touch</a>
   </div>
 </nav>
 
-<main id="top">
-<div class="wrap">
-
-  <!-- HERO -->
-  <header class="hero">
-    <span class="pill reveal"><span class="dot"></span>Open to analytics &amp; risk roles · 2027</span>
-    <h1 class="reveal">I find the loans that are <span class="grad">going to go bad</span> — before they do.</h1>
-    <p class="reveal">Engineer by training, finance by choice. I work on credit risk, valuation and pricing problems where the answer has to survive contact with a real book of business.</p>
-    <div class="cta-row reveal">
-      <a class="btn" href="#work">See my work</a>
-      <a class="btn ghost" href="resume.pdf">Download résumé</a>
+<header class="hero" id="top">
+  <div class="wrap">
+    <div class="hero-top">
+      <div>
+        <span class="avail boot" data-b="1"><i></i>Open to analytics &amp; risk roles · 2027</span>
+        <h1 class="boot" data-b="2">Finding the loans that go bad — <em>before they do.</em></h1>
+      </div>
+      <div class="hero-meta boot" data-b="3">
+        <b>Shagun Khedia</b>
+        <span>Credit risk · Valuation · Pricing</span><em></em>
+        <b>Now</b><span>PGDM 2025–27, Great Lakes Gurgaon</span><em></em>
+        <b>Before</b><span>B.Tech Computer Science</span>
+        <span>Summer internship, GrayQuest</span>
+      </div>
     </div>
 
-    <div class="stats">
-      <div class="stat reveal"><span class="n">0.97</span><span class="l">ROC-AUC on default prediction model</span></div>
-      <div class="stat reveal"><span class="n">₹10.33 Cr</span><span class="l">At-risk exposure flagged early</span></div>
-      <div class="stat reveal"><span class="n">₹5.31 Cr</span><span class="l">ECL provision gap identified (Ind AS 109)</span></div>
-      <div class="stat reveal"><span class="n">30–60d</span><span class="l">Earlier warning before default</span></div>
-    </div>
-  </header>
-
-  <!-- WORK -->
-  <section id="work">
-    <div class="sec-head reveal">
-      <p class="eyebrow">Selected work</p>
-      <h2>Four problems, four decisions</h2>
-      <p>Each of these ended in a call I had to make and defend — not just a chart.</p>
-    </div>
-
-    <div class="grid">
-
-      <!-- 1 -->
-      <article class="card reveal">
-        <div class="card-viz v1">
-          <svg viewBox="0 0 320 120" role="img" aria-label="Right-skewed distribution of predicted default probability with the upper tail flagged.">
-            <path d="M10,105 C40,103 55,26 78,18 C100,10 118,38 142,62 C178,96 215,104 310,106 L310,106 L180,106 Z" fill="#FF6B57" opacity=".28"/>
-            <path d="M180,101 C215,104 260,106 310,106 L310,106 L180,106 Z" fill="#FF6B57" opacity=".9"/>
-            <path d="M10,105 C40,103 55,26 78,18 C100,10 118,38 142,62 C178,96 215,104 310,106" fill="none" stroke="#6B4EFF" stroke-width="2.6" stroke-linecap="round"/>
-            <line x1="180" y1="6" x2="180" y2="106" stroke="#FF6B57" stroke-width="1.6" stroke-dasharray="4 4"/>
-            <line x1="10" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
-            <text x="188" y="20" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E0512F">flag threshold</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="tags"><span class="tag">Credit risk</span><span class="tag o">GrayQuest</span><span class="tag t">Python · IFRS 9</span></div>
-          <h3>An early warning system for a ₹80.76 Cr loan book</h3>
-          <p>Collections was reactive — a parent missed an instalment, then someone called. I built a probability-of-default scorecard on 24,626 applications, staged the live book under Ind AS 109, and turned the scores into a ranked worklist sorted by expected loss. Logistic regression over a tree ensemble on purpose: a credit officer has to tell a parent <em>why</em> they were declined, and a coefficient does that where a black box can't.</p>
-          <p>The finding that mattered most wasn't statistical. 233 repeat defaulters were holding live loans and only 23% had been through a personal discussion before re-approval — a process gap fixable in a week, with no model required.</p>
-          <div class="metrics">
-            <div><span class="m">0.97</span><span class="k">ROC-AUC</span></div>
-            <div><span class="m">₹10.33 Cr</span><span class="k">at-risk flagged</span></div>
-            <div><span class="m">₹5.31 Cr</span><span class="k">ECL provision</span></div>
-            <div><span class="m">30–60d</span><span class="k">lead time</span></div>
-          </div>
-          <a class="card-link" href="https://github.com/shaggy40/credit-risk-early-warning">Code, notebook and full write-up <span class="arw">→</span></a>
-        </div>
-      </article>
-
-      <!-- 2 -->
-      <article class="card reveal">
-        <div class="card-viz v2">
-          <svg viewBox="0 0 320 120" role="img" aria-label="Rising bar chart of loan applications over the campaign period.">
-            <line x1="10" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
-            <rect x="30" y="78" width="34" height="28" rx="6" fill="#FFB020" opacity=".55"/>
-            <rect x="86" y="62" width="34" height="44" rx="6" fill="#FFB020" opacity=".7"/>
-            <rect x="142" y="44" width="34" height="62" rx="6" fill="#FF8A4C" opacity=".8"/>
-            <rect x="198" y="26" width="34" height="80" rx="6" fill="#FF6B57"/>
-            <rect x="254" y="14" width="34" height="92" rx="6" fill="#F250A8"/>
-            <text x="254" y="8" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E0512F">₹5L+</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="tags"><span class="tag o">Field sales</span><span class="tag">GrayQuest</span></div>
-          <h3>₹5 lakh in fee financing, sold one parent at a time</h3>
-          <p>Two months visiting the Narayana and Sri Chaitanya campuses daily, convincing parents to pay school fees in EMIs rather than a lump sum. Face-to-face, objections answered on the spot.</p>
-          <p>A parent doesn't want a loan — they want the fee deadline to stop being a problem this month, and getting to yes meant answering that rather than reciting features. You also understand a B2B2C model differently once you've had to explain it at a fee counter to someone deciding whether to trust it.</p>
-          <div class="metrics">
-            <div><span class="m">₹5L+</span><span class="k">loans sold</span></div>
-            <div><span class="m">2 months</span><span class="k">on campus</span></div>
-            <div><span class="m">Daily</span><span class="k">on both campuses</span></div>
-          </div>
-        </div>
-      </article>
-
-      <!-- 3 -->
-      <article class="card reveal">
-        <div class="card-viz v3">
-          <svg viewBox="0 0 320 120" role="img" aria-label="Three firms compared on weighted average cost of capital, ranging 14.4 to 18 percent.">
-            <line x1="60" y1="14" x2="60" y2="106" stroke="#1C1338" stroke-width="1" opacity=".2"/>
-            <rect x="60" y="22" width="150" height="20" rx="10" fill="#0FB5A6" opacity=".85"/>
-            <rect x="60" y="52" width="196" height="20" rx="10" fill="#6B4EFF" opacity=".8"/>
-            <rect x="60" y="82" width="232" height="20" rx="10" fill="#F250A8" opacity=".85"/>
-            <text x="216" y="37" font-family="IBM Plex Mono, monospace" font-size="11" fill="#0A8C80">14.4%</text>
-            <text x="262" y="67" font-family="IBM Plex Mono, monospace" font-size="11" fill="#6B4EFF">16.2%</text>
-            <text x="298" y="97" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C4267F" text-anchor="end">18.0%</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="tags"><span class="tag t">Valuation</span><span class="tag">CAPM · WACC</span></div>
-          <h3>Why three gas distributors cost different money</h3>
-          <p>I estimated the cost of capital for three listed City Gas Distribution firms, expecting capital structure to explain the spread. It didn't — the difference traced almost entirely to equity beta, the market's read on each firm's regulatory and volume risk. At an 18% hurdle rate you reject projects a 14.4% peer would fund.</p>
-          <div class="metrics">
-            <div><span class="m">3</span><span class="k">listed firms</span></div>
-            <div><span class="m">14.4–18%</span><span class="k">WACC range</span></div>
-          </div>
-          <a class="card-link" href="#">See the model <span class="arw">→</span></a>
-        </div>
-      </article>
-
-      <!-- 4 -->
-      <article class="card reveal">
-        <div class="card-viz v4">
-          <svg viewBox="0 0 320 120" role="img" aria-label="Downward sloping demand curve with the chosen price point marked.">
-            <line x1="14" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
-            <line x1="14" y1="10" x2="14" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
-            <path d="M26,18 C90,42 150,68 300,100" fill="none" stroke="#6B4EFF" stroke-width="2.6" stroke-linecap="round"/>
-            <line x1="150" y1="68" x2="150" y2="106" stroke="#F250A8" stroke-width="1.4" stroke-dasharray="4 4"/>
-            <line x1="14" y1="68" x2="150" y2="68" stroke="#F250A8" stroke-width="1.4" stroke-dasharray="4 4"/>
-            <circle cx="150" cy="68" r="7" fill="#F250A8"/>
-            <circle cx="150" cy="68" r="13" fill="#F250A8" opacity=".22"/>
-            <text x="164" y="60" font-family="IBM Plex Mono, monospace" font-size="10" fill="#C4267F">price set here</text>
-          </svg>
-        </div>
-        <div class="card-body">
-          <div class="tags"><span class="tag">Pricing</span><span class="tag t">Regression</span></div>
-          <h3>Pricing a micro venture off its own demand curve</h3>
-          <p>Real inventory, real money. Instead of pricing on gut I fit a demand curve from early sales, estimated elasticity and repriced against it — demand turned out less elastic than assumed, so the opening price was leaving margin behind. Same method applied to 1,500+ car-pricing observations to isolate what actually moves price.</p>
-          <div class="metrics">
-            <div><span class="m">50%</span><span class="k">net profit</span></div>
-            <div><span class="m">1,500+</span><span class="k">observations modelled</span></div>
-          </div>
-          <a class="card-link" href="#">See the analysis <span class="arw">→</span></a>
-        </div>
-      </article>
-
-    </div>
-  </section>
-
-  <!-- ABOUT -->
-  <section id="about">
-    <div class="sec-head reveal">
-      <p class="eyebrow">About</p>
-      <h2>Computer science first, finance second</h2>
-    </div>
-    <div class="about">
-      <div class="panel reveal">
-        <h3>Hello — I'm Shagun</h3>
-        <p>I did a B.Tech in computer science and then went looking for problems where the code was the easy part. Credit risk turned out to be exactly that: the modelling is well-trodden, and the hard question is always what a business should <em>do</em> with a number once it has one.</p>
-          <p>Before I modelled a loan book, I sold into one. Two months at GrayQuest visiting the Narayana and Sri Chaitanya campuses daily, persuading parents to finance school fees rather than pay a lump sum — ₹5 lakh of it, one conversation at a time. It's the fastest way I know to learn a product — and a business model.</p>
-        <p>I'm in the second year of my PGDM at Great Lakes, Gurgaon, working towards analytics and risk roles in financial services. What I enjoy sits at the join — a model that changes a workflow, a valuation that changes an investment decision, a price that changes a demand curve.</p>
-        <p>Outside coursework I compete in inter-collegiate and national case competitions, and I've taught programming to a class of thirty students, which is still the fastest way I know to find out whether you actually understand something.</p>
-        <div class="tools">
-          <span>Python</span><span>pandas · scikit-learn</span><span>XGBoost</span><span>Logistic regression</span><span>WOE / IV scorecards</span><span>Ind AS 109 / IFRS 9</span><span>Excel modelling</span><span>Power BI</span><span>SQL</span><span>CAPM / WACC</span>
+    <div class="inst boot" data-b="4">
+      <div class="inst-head">
+        <b id="hint">Drag the line</b>
+        <div class="legend">
+          <s><i style="background:#17A08A;opacity:.55"></i>Would have paid</s>
+          <s><i style="background:#E2431C;opacity:.75"></i>Went bad</s>
+          <s><i style="background:#EDA320;opacity:.85"></i>Flagged in error</s>
         </div>
       </div>
-      <div class="panel reveal">
+
+      <svg class="plot" id="plot" viewBox="0 0 1000 300" tabindex="0" role="slider"
+           aria-label="Flag threshold" aria-valuemin="0.05" aria-valuemax="0.95" aria-valuenow="0.25" aria-valuetext="0.25">
+        <defs>
+          <clipPath id="clipR"><rect id="rectR" x="0" y="0" width="1000" height="300"/></clipPath>
+        </defs>
+        <path id="fillGood" fill="#17A08A" fill-opacity=".16"></path>
+        <path id="fillBad"  fill="#E2431C" fill-opacity=".14"></path>
+        <g clip-path="url(#clipR)">
+          <path id="tailGood" fill="#EDA320" fill-opacity=".85"></path>
+          <path id="tailBad"  fill="#E2431C" fill-opacity=".8"></path>
+        </g>
+        <path id="lineGood" fill="none" stroke="#17A08A" stroke-width="2.2" stroke-linecap="round"></path>
+        <path id="lineBad"  fill="none" stroke="#E2431C" stroke-width="2.2" stroke-linecap="round"></path>
+        <line x1="52" y1="258" x2="968" y2="258" stroke="#FFFFFF" stroke-opacity=".18"/>
+        <g id="cut">
+          <line id="cutLine" y1="16" y2="258" stroke="#F8FAF9" stroke-width="1.6"/>
+          <rect id="cutKnob" y="8" width="16" height="16" fill="#F8FAF9"/>
+          <text id="cutTxt" y="21" font-family="JetBrains Mono,monospace" font-size="13" font-weight="700" fill="#F8FAF9">0.25</text>
+        </g>
+        <text x="52" y="284" font-family="JetBrains Mono,monospace" font-size="10.5" fill="#88A2A8" letter-spacing="1.6">PREDICTED DEFAULT PROBABILITY  0.0</text>
+        <text x="968" y="284" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="10.5" fill="#88A2A8" letter-spacing="1.6">1.0</text>
+      </svg>
+
+      <div class="readout">
+        <div class="ro"><span class="v" id="rFlag">—</span><span class="k">Of the book flagged</span></div>
+        <div class="ro"><span class="v" id="rCaught">—</span><span class="k">Defaults caught</span></div>
+        <div class="ro"><span class="v" id="rMissed">—</span><span class="k">Defaults missed</span></div>
+        <div class="ro"><span class="v" id="rWork">—</span><span class="k">Accounts to work</span></div>
+      </div>
+
+      <div class="verdict">
+        <b id="vLabel">The call I made</b>
+        <span id="vText">The widest net collections could work through in a month.</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<section class="band light" id="work">
+  <div class="wrap">
+    <p class="eyebrow rv">Selected work</p>
+    <h2 class="rv">Four problems that ended in a decision, not a chart.</h2>
+
+    <article class="record">
+      <div class="viz rv">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Expected credit loss by IFRS 9 stage, in rupees crore.">
+          <text x="16" y="24" font-family="JetBrains Mono,monospace" font-size="10" fill="#5C7078" letter-spacing="1.3">EXPECTED CREDIT LOSS  ₹ CRORE</text>
+          <line x1="16" y1="168" x2="288" y2="168" stroke="#DFE5E3"/>
+          <rect x="44" y="134" width="54" height="34" fill="#17A08A"/>
+          <rect x="126" y="82" width="54" height="86" fill="#EDA320"/>
+          <rect x="208" y="114" width="54" height="54" fill="#E2431C"/>
+          <text x="71" y="126" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0C2A31">0.78</text>
+          <text x="153" y="74" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0C2A31">1.88</text>
+          <text x="235" y="106" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0C2A31">1.17</text>
+          <text x="71" y="186" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#5C7078">STAGE 1</text>
+          <text x="153" y="186" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#5C7078">STAGE 2</text>
+          <text x="235" y="186" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#5C7078">STAGE 3</text>
+        </svg>
+      </div>
+      <div>
+        <span class="yr rv">2026 · GRAYQUEST</span>
+        <h3 class="rv">An early warning system for a ₹80.76 Cr loan book</h3>
+        <p class="rv">Collections was reactive — a parent missed an instalment, then someone called. I built a probability-of-default scorecard on 24,626 applications, staged the live book under Ind AS 109, and turned the scores into a ranked worklist sorted by expected loss. Logistic regression over a tree ensemble on purpose: a credit officer has to tell a parent <em>why</em> they were declined, and a coefficient does that where a black box can't.</p>
+        <p class="rv">The finding that mattered most wasn't statistical. 233 repeat defaulters were holding live loans and only 23% had been through a personal discussion before re-approval — a process gap fixable in a week, with no model required.</p>
+        <div class="tagrow rv"><span>Credit risk</span><span>Python</span><span>Ind AS 109</span></div>
+        <div class="figs rv">
+          <div><span class="n">0.97</span><span class="l">ROC-AUC</span></div>
+          <div><span class="n">₹10.33 Cr</span><span class="l">At-risk flagged</span></div>
+          <div><span class="n">₹5.31 Cr</span><span class="l">ECL provision</span></div>
+          <div><span class="n">30–60d</span><span class="l">Lead time</span></div>
+        </div>
+        <a class="golink rv" href="https://github.com/shaggy40/credit-risk-early-warning">Code, notebook &amp; write-up →</a>
+      </div>
+    </article>
+
+    <article class="record">
+      <div class="viz rv">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Cumulative fee financing sold over eight weeks.">
+          <text x="16" y="24" font-family="JetBrains Mono,monospace" font-size="10" fill="#5C7078" letter-spacing="1.3">CUMULATIVE FEE FINANCING SOLD</text>
+          <line x1="24" y1="168" x2="288" y2="168" stroke="#DFE5E3"/>
+          <path d="M32,160 C92,152 138,124 184,88 C218,60 252,42 280,32" fill="none" stroke="#E2431C" stroke-width="2.8" stroke-linecap="round"/>
+          <circle cx="280" cy="32" r="16" fill="#E2431C" fill-opacity=".14"/>
+          <circle cx="280" cy="32" r="6" fill="#E2431C"/>
+          <text x="266" y="26" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="13" font-weight="700" fill="#E2431C">₹5L+</text>
+          <text x="32" y="186" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#5C7078">WEEK 1</text>
+          <text x="280" y="186" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="9.5" fill="#5C7078">WEEK 8</text>
+        </svg>
+      </div>
+      <div>
+        <span class="yr rv">2026 · GRAYQUEST</span>
+        <h3 class="rv">₹5 lakh in fee financing, sold one parent at a time</h3>
+        <p class="rv">Two months visiting the Narayana and Sri Chaitanya campuses daily, convincing parents to pay school fees in EMIs rather than a lump sum. Face-to-face, objections answered on the spot.</p>
+        <p class="rv">A parent doesn't want a loan — they want the fee deadline to stop being a problem this month, and getting to yes meant answering that rather than reciting features. You also understand a B2B2C model differently once you've had to explain it at a fee counter to someone deciding whether to trust it.</p>
+        <div class="tagrow rv"><span>Field sales</span><span>B2B2C</span></div>
+        <div class="figs rv">
+          <div><span class="n">₹5L+</span><span class="l">Loans sold</span></div>
+          <div><span class="n">2 months</span><span class="l">On campus</span></div>
+          <div><span class="n">Daily</span><span class="l">Both chains</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="record">
+      <div class="viz rv">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Weighted average cost of capital across three gas distribution firms.">
+          <text x="16" y="24" font-family="JetBrains Mono,monospace" font-size="10" fill="#5C7078" letter-spacing="1.3">WACC · CITY GAS DISTRIBUTION</text>
+          <line x1="58" y1="44" x2="58" y2="170" stroke="#DFE5E3"/>
+          <rect x="58" y="56" width="130" height="26" fill="#17A08A"/>
+          <rect x="58" y="100" width="174" height="26" fill="#EDA320"/>
+          <rect x="58" y="144" width="212" height="26" fill="#E2431C"/>
+          <text x="196" y="74" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0C2A31">14.4%</text>
+          <text x="240" y="118" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#0C2A31">16.2%</text>
+          <text x="262" y="162" text-anchor="end" font-family="JetBrains Mono,monospace" font-size="12" font-weight="700" fill="#FFF">18.0%</text>
+        </svg>
+      </div>
+      <div>
+        <span class="yr rv">2026 · ACADEMIC</span>
+        <h3 class="rv">Why three gas distributors cost different money</h3>
+        <p class="rv">I estimated the cost of capital for three listed City Gas Distribution firms expecting capital structure to explain the spread. It didn't — the difference traced almost entirely to equity beta, the market's read on each firm's regulatory and volume risk. At an 18% hurdle rate you reject projects a 14.4% peer would fund.</p>
+        <div class="tagrow rv"><span>Valuation</span><span>CAPM</span></div>
+        <div class="figs rv">
+          <div><span class="n">3</span><span class="l">Listed firms</span></div>
+          <div><span class="n">14.4–18%</span><span class="l">WACC range</span></div>
+        </div>
+      </div>
+    </article>
+
+    <article class="record">
+      <div class="viz rv">
+        <svg viewBox="0 0 300 200" role="img" aria-label="Demand curve with the chosen price point marked.">
+          <text x="16" y="24" font-family="JetBrains Mono,monospace" font-size="10" fill="#5C7078" letter-spacing="1.3">PRICE vs DEMAND</text>
+          <line x1="36" y1="168" x2="288" y2="168" stroke="#DFE5E3"/>
+          <line x1="36" y1="42" x2="36" y2="168" stroke="#DFE5E3"/>
+          <path d="M48,52 C112,84 172,116 280,154" fill="none" stroke="#0C2A31" stroke-width="2.8" stroke-linecap="round"/>
+          <line x1="156" y1="106" x2="156" y2="168" stroke="#E2431C" stroke-width="1.4" stroke-dasharray="4 4"/>
+          <line x1="36" y1="106" x2="156" y2="106" stroke="#E2431C" stroke-width="1.4" stroke-dasharray="4 4"/>
+          <circle cx="156" cy="106" r="16" fill="#E2431C" fill-opacity=".15"/>
+          <circle cx="156" cy="106" r="6" fill="#E2431C"/>
+          <text x="174" y="100" font-family="JetBrains Mono,monospace" font-size="10.5" fill="#E2431C">price set here</text>
+        </svg>
+      </div>
+      <div>
+        <span class="yr rv">2025 · VENTURE</span>
+        <h3 class="rv">Pricing a micro venture off its own demand curve</h3>
+        <p class="rv">Real inventory, real money. Rather than pricing on instinct I fit a demand curve from early sales, estimated elasticity and repriced against it — demand was less elastic than assumed, so the opening price was leaving margin behind. Same method applied to 1,500+ car-pricing observations.</p>
+        <div class="tagrow rv"><span>Pricing</span><span>Regression</span></div>
+        <div class="figs rv">
+          <div><span class="n">50%</span><span class="l">Net profit</span></div>
+          <div><span class="n">1,500+</span><span class="l">Observations</span></div>
+        </div>
+      </div>
+    </article>
+  </div>
+</section>
+
+<section class="band dark" id="approach">
+  <div class="wrap">
+    <p class="eyebrow rv">How I work</p>
+    <h2 class="rv">Three things I believe about models</h2>
+    <div class="principles">
+      <div class="pr rv"><q>A number isn't an answer.</q>
+        <p>ROC-AUC of 0.97 changes nothing on its own. What changed at GrayQuest was a collections team getting a ranked list they could work through on a Monday morning.</p></div>
+      <div class="pr rv"><q>Explainability is a requirement, not a preference.</q>
+        <p>A credit officer has to justify a rejection under RBI's Fair Practices Code. A model that can't be explained can't be deployed, whatever it scores.</p></div>
+      <div class="pr rv"><q>Say what your model can't do.</q>
+        <p>Mine trains on a proxy target in a benign credit cycle. Against real defaults, expect closer to 0.80. Naming that is what makes the rest worth believing.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band bone" id="about">
+  <div class="wrap">
+    <p class="eyebrow rv">Background</p>
+    <h2 class="rv">Computer science first, finance second.</h2>
+    <div class="about">
+      <div class="rv">
+        <p>I did a B.Tech in computer science and then went looking for problems where the code was the easy part. Credit risk turned out to be exactly that: the modelling is well-trodden, and the hard question is always what a business should <em>do</em> with a number once it has one.</p>
+        <p>Before I modelled a loan book, I sold into one. Two months at GrayQuest visiting the Narayana and Sri Chaitanya campuses daily, persuading parents to finance school fees rather than pay a lump sum — ₹5 lakh of it, one conversation at a time. It's the fastest way I know to learn a product, and a business model.</p>
+        <p>I'm now in the second year of my PGDM at Great Lakes, Gurgaon, heading for analytics and risk roles in financial services. Outside coursework I compete in inter-collegiate and national case competitions, and I've taught programming to a class of thirty — still the fastest way to find out whether you actually understand something.</p>
+        <div class="skills">
+          <span>Python</span><span>pandas · scikit-learn</span><span>Logistic regression</span><span>WOE / IV scorecards</span><span>Ind AS 109 / IFRS 9</span><span>Excel modelling</span><span>Power BI</span><span>SQL</span><span>CAPM / WACC</span>
+        </div>
+      </div>
+      <div class="ledger rv">
         <h4>Education</h4>
         <div class="row"><span>PGDM, Great Lakes Gurgaon</span><span>2025–27</span></div>
         <div class="row"><span>B.Tech CSE, Techno India</span><span>8.31/10</span></div>
         <h4>Certifications</h4>
-        <div class="row"><span>Data for Business Analysts, Excel</span><span>Microsoft</span></div>
+        <div class="row"><span>Data for Business Analysts</span><span>Microsoft</span></div>
         <div class="row"><span>Data Visualisation</span><span>Tata</span></div>
         <div class="row"><span>Project Management Foundations</span><span>PMI</span></div>
         <div class="row"><span>AI Essentials</span><span>Google</span></div>
         <h4>Languages</h4>
-        <div class="row"><span>English, Hindi, Bengali</span><span></span></div>
+        <div class="row"><span>English · Hindi · Bengali</span><span></span></div>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <!-- CONTACT -->
-  <section id="contact">
-    <div class="cta-band reveal">
-      <h2>Let's talk about risk, pricing or valuation</h2>
-      <p>I'm looking for analytics and risk roles in financial services from 2027, and I'm always up for a conversation about a hard modelling problem.</p>
-      <div class="cta-row">
-        <a class="btn" href="mailto:shagunkhedia40@gmail.com">Email me</a>
-        <a class="btn ghost" href="https://www.linkedin.com/in/shag40/">LinkedIn</a>
-        <a class="btn ghost" href="https://github.com/shaggy40">GitHub</a>
-      </div>
+<section class="band dark" id="contact">
+  <div class="wrap">
+    <p class="eyebrow rv">Contact</p>
+    <h2 class="rv">Let's talk about risk, pricing or valuation.</h2>
+    <p class="lede rv">Looking for analytics and risk roles in financial services from 2027 — and always up for a conversation about a hard modelling problem.</p>
+    <div class="cbox rv">
+      <a class="cbtn solid" href="mailto:shagunkhedia40@gmail.com">shagunkhedia40@gmail.com</a>
+      <a class="cbtn" href="https://www.linkedin.com/in/shag40/">LinkedIn</a>
+      <a class="cbtn" href="https://github.com/shaggy40">GitHub</a>
+      <a class="cbtn" href="resume.pdf">Résumé (PDF)</a>
     </div>
-  </section>
+  </div>
+</section>
 
-</div>
-</main>
-
-<footer>
-  <div class="wrap">Built by Shagun Khedia · <a href="resume.pdf">Résumé</a> · <a href="mailto:shagunkhedia40@gmail.com">shagunkhedia40@gmail.com</a></div>
-</footer>
+<footer><div class="wrap foot-in">
+  <span>Shagun Khedia — Credit risk &amp; analytics</span>
+  <span>Great Lakes Gurgaon · PGDM 2025–27</span>
+</div></footer>
 
 <script>
 (function(){
-  var els = document.querySelectorAll('.reveal');
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
-    els.forEach(function(el){ el.classList.add('in'); });
-    return;
-  }
-  var io = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  els.forEach(function(el, i){
-    el.style.transitionDelay = (Math.min(i, 4) * 70) + 'ms';
-    io.observe(el);
+"use strict";
+var RM = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+var $  = function(id){ return document.getElementById(id); };
+
+/* ---------------- real threshold data (held-out test set) ---------------- */
+var D=[{t:.05,f:35.3,c:.966,m:26,w:3325,fa:1026},{t:.10,f:26.8,c:.943,m:44,w:2521,fa:615},
+{t:.15,f:24.4,c:.924,m:59,w:2294,fa:509},{t:.20,f:22.9,c:.903,m:75,w:2154,fa:450},
+{t:.25,f:20.5,c:.863,m:106,w:1925,fa:359},{t:.30,f:19.9,c:.850,m:116,w:1869,fa:339},
+{t:.35,f:18.4,c:.805,m:151,w:1732,fa:301},{t:.40,f:14.9,c:.683,m:246,w:1399,fa:218},
+{t:.45,f:14.4,c:.663,m:261,w:1350,fa:207},{t:.50,f:13.3,c:.623,m:292,w:1255,fa:187},
+{t:.55,f:11.7,c:.568,m:335,w:1105,fa:150},{t:.60,f:10.0,c:.520,m:372,w:938,fa:98},
+{t:.65,f:9.4,c:.507,m:382,w:882,fa:78},{t:.70,f:8.6,c:.476,m:406,w:811,fa:64},
+{t:.75,f:7.6,c:.440,m:434,w:719,fa:43},{t:.80,f:7.3,c:.422,m:448,w:685,fa:39},
+{t:.85,f:6.4,c:.377,m:483,w:605,fa:31},{t:.90,f:5.0,c:.297,m:545,w:472,fa:22},
+{t:.95,f:2.8,c:.175,m:639,w:267,fa:7}];
+
+var X0=52, X1=968, Y0=258, YTOP=34, CAP=2000, BASE=0.154;
+
+/* -------- two score distributions: performing vs defaulting -------- */
+function beta(x,a,b){ if(x<=0||x>=1) return 0; return Math.pow(x,a-1)*Math.pow(1-x,b-1); }
+var N=180, gs=[], bs=[], i, x, peak=0;
+for(i=0;i<=N;i++){
+  x=i/N;
+  var g=beta(x,1.5,11)*(1-BASE), d=beta(x,4.2,1.9)*BASE*3.1;
+  gs.push(g); bs.push(d);
+  if(g>peak)peak=g; if(d>peak)peak=d;
+}
+function PX(k){ return X0 + (k/N)*(X1-X0); }
+function PY(v){ return Y0 - (v/peak)*(Y0-YTOP); }
+
+function linePath(arr){
+  var d="M"+PX(0).toFixed(1)+","+PY(arr[0]).toFixed(1);
+  for(var k=1;k<=N;k++) d+="L"+PX(k).toFixed(1)+","+PY(arr[k]).toFixed(1);
+  return d;
+}
+function areaPath(arr){ return linePath(arr)+"L"+X1+","+Y0+"L"+X0+","+Y0+"Z"; }
+
+$("lineGood").setAttribute("d", linePath(gs));
+$("lineBad").setAttribute("d",  linePath(bs));
+$("fillGood").setAttribute("d", areaPath(gs));
+$("fillBad").setAttribute("d",  areaPath(bs));
+$("tailGood").setAttribute("d", areaPath(gs));
+$("tailBad").setAttribute("d",  areaPath(bs));
+
+/* -------- interaction -------- */
+var idx=4;
+function xFor(t){ return X0 + ((t-0.05)/0.90)*(X1-X0); }
+function fmt(n){ return n.toLocaleString("en-IN"); }
+
+function verdict(d){
+  if(d.w>CAP) return ["Too wide to work",
+    "Flagging "+d.f+"% of the book means "+fmt(d.w)+" accounts a month — past what the collections team can call. A list nobody works through is the same as no list."];
+  if(d.t===0.25) return ["The call I made",
+    "The widest net collections could actually work through in a month. Catching "+Math.round(d.c*100)+"% of defaults costs "+fmt(d.fa)+" calls to parents who would have paid anyway — worth it, because a missed default costs the whole balance."];
+  if(d.c<0.55) return ["Too tight",
+    "Only "+fmt(d.fa)+" wasted calls, but "+fmt(d.m)+" defaults walk through unseen. Precision looks good on a slide and costs the book real money."];
+  return ["Workable, not the pick",
+    "Catches "+Math.round(d.c*100)+"% of defaults for "+fmt(d.w)+" accounts of work. Within capacity — it just leaves "+fmt(d.m)+" defaults on the table when a lower cut wouldn't."];
+}
+
+function paint(i2, px){
+  var d=D[i2], cx = (px===undefined) ? xFor(d.t) : px;
+  $("cutLine").setAttribute("x1",cx); $("cutLine").setAttribute("x2",cx);
+  $("cutKnob").setAttribute("x",cx-8);
+  $("cutTxt").setAttribute("x",cx+16); $("cutTxt").textContent=d.t.toFixed(2);
+  $("rectR").setAttribute("x",cx); $("rectR").setAttribute("width",Math.max(0,1000-cx));
+  $("rFlag").textContent=d.f.toFixed(1)+"%";
+  $("rCaught").textContent=Math.round(d.c*100)+"%";
+  $("rMissed").textContent=fmt(d.m);
+  $("rWork").textContent=fmt(d.w);
+  var v=verdict(d); $("vLabel").textContent=v[0]; $("vText").textContent=v[1];
+  $("plot").setAttribute("aria-valuenow",d.t); $("plot").setAttribute("aria-valuetext",d.t.toFixed(2));
+}
+
+var svg=$("plot"), dragging=false, touched=false;
+function setFromX(clientX){
+  var r=svg.getBoundingClientRect();
+  var px=(clientX-r.left)/r.width*1000;
+  var t=0.05+((px-X0)/(X1-X0))*0.90;
+  var i2=Math.max(0,Math.min(D.length-1,Math.round((t-0.05)/0.05)));
+  if(i2!==idx || !touched){ idx=i2; paint(idx); }
+  if(!touched){ touched=true; $("hint").textContent="Keep dragging"; }
+}
+svg.addEventListener("pointerdown",function(e){dragging=true;svg.setPointerCapture(e.pointerId);setFromX(e.clientX);});
+svg.addEventListener("pointermove",function(e){if(dragging)setFromX(e.clientX);});
+svg.addEventListener("pointerup",function(){dragging=false;});
+svg.addEventListener("pointercancel",function(){dragging=false;});
+svg.addEventListener("keydown",function(e){
+  var k=e.key, n=idx;
+  if(k==="ArrowRight"||k==="ArrowUp") n=Math.min(D.length-1,idx+1);
+  else if(k==="ArrowLeft"||k==="ArrowDown") n=Math.max(0,idx-1);
+  else if(k==="Home") n=0; else if(k==="End") n=D.length-1; else return;
+  e.preventDefault(); idx=n; paint(idx);
+  if(!touched){touched=true;$("hint").textContent="Keep going";}
+});
+
+/* -------- boot sequence -------- */
+var boots=document.querySelectorAll(".boot");
+if(RM){
+  Array.prototype.forEach.call(boots,function(n){n.classList.add("on");});
+  paint(4);
+}else{
+  Array.prototype.forEach.call(boots,function(n){
+    setTimeout(function(){n.classList.add("on");}, 90*(+n.dataset.b));
   });
+  /* curves draw themselves */
+  ["lineGood","lineBad"].forEach(function(id,j){
+    var p=$(id), L=p.getTotalLength();
+    p.style.strokeDasharray=L; p.style.strokeDashoffset=L;
+    setTimeout(function(){
+      p.style.transition="stroke-dashoffset 1.15s cubic-bezier(.3,.8,.3,1)";
+      p.style.strokeDashoffset=0;
+    }, 480+j*130);
+  });
+  ["fillGood","fillBad"].forEach(function(id){
+    var p=$(id); p.style.opacity=0;
+    setTimeout(function(){p.style.transition="opacity .8s";p.style.opacity=1;},1150);
+  });
+  /* threshold sweeps in from the right and settles */
+  paint(4, X1);
+  $("cut").style.opacity=0;
+  setTimeout(function(){
+    $("cut").style.transition="opacity .4s"; $("cut").style.opacity=1;
+    var t0=null, from=X1, to=xFor(0.25), dur=900;
+    (function step(ts){
+      if(!t0)t0=ts;
+      var k=Math.min(1,(ts-t0)/dur), e=1-Math.pow(1-k,3);
+      paint(4, from+(to-from)*e);
+      if(k<1) requestAnimationFrame(step);
+    })(performance.now());
+  },1250);
+}
+
+/* -------- scroll reveal, nav, progress -------- */
+var nav=$("nav"), prog=$("prog");
+function onScroll(){
+  var y=window.scrollY||0;
+  nav.classList.toggle("stuck", y>40);
+  var h=document.documentElement.scrollHeight-window.innerHeight;
+  prog.style.width=(h>0? (y/h)*100:0)+"%";
+}
+window.addEventListener("scroll",onScroll,{passive:true}); onScroll();
+
+var items=document.querySelectorAll(".rv");
+if(RM||!("IntersectionObserver" in window)){
+  Array.prototype.forEach.call(items,function(n){n.classList.add("in");});
+}else{
+  var io=new IntersectionObserver(function(en){
+    en.forEach(function(e){ if(e.isIntersecting){e.target.classList.add("in");io.unobserve(e.target);} });
+  },{threshold:.1,rootMargin:"0px 0px -60px 0px"});
+  Array.prototype.forEach.call(items,function(n,i2){
+    n.style.transitionDelay=Math.min(i2%4,3)*80+"ms"; io.observe(n);
+  });
+}
 })();
 </script>
 </body>
