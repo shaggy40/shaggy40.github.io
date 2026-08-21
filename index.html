@@ -1,0 +1,405 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Shagun Khedia — Analytics &amp; Risk Portfolio</title>
+<meta name="description" content="Analytics, credit risk and finance portfolio. Default prediction, valuation and pricing projects.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Mono:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --ink:#1C1338;
+  --soft:#5B5378;
+  --bg:#FBF9FF;
+  --card:#FFFFFF;
+  --line:#E7E0F5;
+  --violet:#6B4EFF;
+  --coral:#FF6B57;
+  --teal:#0FB5A6;
+  --amber:#FFB020;
+  --pink:#F250A8;
+  --disp:"Bricolage Grotesque",system-ui,sans-serif;
+  --ui:"Plus Jakarta Sans",system-ui,sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,monospace;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;background:var(--bg);color:var(--ink);
+  font-family:var(--ui);font-size:17px;line-height:1.65;overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--violet);outline-offset:3px;border-radius:6px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+
+/* ambient gradient blobs */
+.blob{position:fixed;border-radius:50%;filter:blur(90px);opacity:.5;z-index:0;pointer-events:none}
+.blob.a{width:520px;height:520px;background:#C9BCFF;top:-180px;left:-160px}
+.blob.b{width:460px;height:460px;background:#FFD5C4;top:340px;right:-200px}
+.blob.c{width:520px;height:520px;background:#B7F2EA;top:1500px;left:-220px}
+.blob.d{width:420px;height:420px;background:#FFD9F0;top:2600px;right:-180px}
+main,nav,footer{position:relative;z-index:1}
+
+/* ---------- navbar ---------- */
+nav{
+  position:sticky;top:0;z-index:50;
+  backdrop-filter:blur(14px);background:rgba(251,249,255,.78);
+  border-bottom:1px solid var(--line);
+}
+.nav-in{max-width:1120px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:flex;align-items:center;gap:11px;font-family:var(--disp);font-weight:800;font-size:19px;letter-spacing:-.02em;text-decoration:none}
+.mark{width:32px;height:32px;border-radius:10px;background:linear-gradient(135deg,var(--violet),var(--pink) 55%,var(--coral));
+  display:grid;place-items:center;color:#fff;font-family:var(--mono);font-size:13px;font-weight:600}
+.nav-links{display:flex;gap:26px;font-size:15px;font-weight:500}
+.nav-links a{text-decoration:none;color:var(--soft);transition:color .18s}
+.nav-links a:hover{color:var(--violet)}
+.btn{
+  display:inline-block;text-decoration:none;font-weight:600;font-size:15px;
+  padding:10px 20px;border-radius:999px;color:#fff;
+  background:linear-gradient(120deg,var(--violet),var(--pink));
+  box-shadow:0 6px 18px rgba(107,78,255,.32);transition:transform .18s,box-shadow .18s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(107,78,255,.4)}
+.btn.ghost{background:transparent;color:var(--ink);border:1.5px solid var(--line);box-shadow:none}
+.btn.ghost:hover{border-color:var(--violet);color:var(--violet)}
+
+/* ---------- hero ---------- */
+.hero{text-align:center;padding:88px 0 64px}
+.pill{
+  display:inline-flex;align-items:center;gap:9px;font-family:var(--mono);font-size:12px;
+  letter-spacing:.08em;text-transform:uppercase;background:var(--card);border:1px solid var(--line);
+  padding:8px 16px;border-radius:999px;color:var(--soft);box-shadow:0 2px 10px rgba(28,19,56,.05)
+}
+.dot{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 0 4px rgba(15,181,166,.18)}
+.hero h1{
+  font-family:var(--disp);font-weight:800;letter-spacing:-.035em;
+  font-size:clamp(38px,6.4vw,72px);line-height:1.02;margin:26px auto 22px;max-width:16ch;
+}
+.grad{background:linear-gradient(100deg,var(--violet),var(--pink) 45%,var(--coral));
+  -webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{font-size:19px;color:var(--soft);max-width:60ch;margin:0 auto 34px}
+.cta-row{display:flex;gap:14px;justify-content:center;flex-wrap:wrap}
+
+/* ---------- stat strip ---------- */
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:60px}
+.stat{background:var(--card);border:1px solid var(--line);border-radius:20px;padding:22px 18px;text-align:left;position:relative;overflow:hidden}
+.stat::before{content:"";position:absolute;inset:0 auto auto 0;width:100%;height:4px}
+.stat:nth-child(1)::before{background:linear-gradient(90deg,var(--violet),var(--pink))}
+.stat:nth-child(2)::before{background:linear-gradient(90deg,var(--coral),var(--amber))}
+.stat:nth-child(3)::before{background:linear-gradient(90deg,var(--teal),var(--violet))}
+.stat:nth-child(4)::before{background:linear-gradient(90deg,var(--amber),var(--pink))}
+.stat .n{font-family:var(--mono);font-weight:600;font-size:27px;letter-spacing:-.02em;font-variant-numeric:tabular-nums;display:block}
+.stat .l{font-size:13.5px;color:var(--soft);margin-top:6px;display:block;line-height:1.45}
+
+/* ---------- sections ---------- */
+section{padding:76px 0}
+.sec-head{text-align:center;max-width:60ch;margin:0 auto 44px}
+.eyebrow{font-family:var(--mono);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--violet);margin:0 0 14px}
+.sec-head h2{font-family:var(--disp);font-weight:800;letter-spacing:-.03em;font-size:clamp(28px,4vw,42px);line-height:1.1;margin:0 0 14px}
+.sec-head p{color:var(--soft);margin:0;font-size:17.5px}
+
+/* ---------- project cards ---------- */
+.grid{display:grid;grid-template-columns:repeat(2,1fr);gap:24px}
+.card{
+  background:var(--card);border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  display:flex;flex-direction:column;transition:transform .25s,box-shadow .25s,border-color .25s;
+}
+.card:hover{transform:translateY(-6px);box-shadow:0 20px 44px rgba(28,19,56,.11);border-color:transparent}
+.card-viz{height:172px;display:grid;place-items:center;padding:18px;position:relative}
+.v1{background:linear-gradient(135deg,#EDE7FF,#FFE3F3)}
+.v2{background:linear-gradient(135deg,#FFEEE6,#FFF6DA)}
+.v3{background:linear-gradient(135deg,#DFF6F2,#E7ECFF)}
+.v4{background:linear-gradient(135deg,#FFE9F5,#EFE6FF)}
+.card-viz svg{width:100%;height:100%;overflow:visible}
+.card-body{padding:24px 24px 26px;display:flex;flex-direction:column;flex:1}
+.tags{display:flex;gap:7px;flex-wrap:wrap;margin-bottom:13px}
+.tag{font-family:var(--mono);font-size:10.5px;letter-spacing:.09em;text-transform:uppercase;
+  padding:5px 11px;border-radius:999px;background:#F3EFFF;color:var(--violet)}
+.tag.o{background:#FFF0EA;color:#E0512F}
+.tag.t{background:#E4F7F4;color:#0A8C80}
+.card h3{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.25;margin:0 0 11px}
+.card p{margin:0 0 16px;color:var(--soft);font-size:15.5px;flex:1}
+.metrics{display:flex;gap:22px;padding-top:16px;border-top:1px solid var(--line);margin-bottom:16px}
+.metrics div{min-width:0}
+.metrics .m{font-family:var(--mono);font-weight:600;font-size:17px;display:block;font-variant-numeric:tabular-nums}
+.metrics .k{font-size:11.5px;color:var(--soft);letter-spacing:.03em}
+.card-link{font-weight:600;font-size:15px;text-decoration:none;color:var(--violet);display:inline-flex;gap:7px;align-items:center}
+.card-link .arw{transition:transform .2s;display:inline-block}
+.card:hover .card-link .arw{transform:translateX(5px)}
+
+/* ---------- about ---------- */
+.about{display:grid;grid-template-columns:1.3fr 1fr;gap:40px;align-items:start}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:24px;padding:32px}
+.panel h3{font-family:var(--disp);font-weight:700;font-size:24px;letter-spacing:-.02em;margin:0 0 16px}
+.panel p{color:var(--soft);margin:0 0 15px}
+.panel p:last-child{margin-bottom:0}
+.tools{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.tools span{font-size:13.5px;font-weight:500;padding:7px 14px;border-radius:999px;background:linear-gradient(120deg,#F4F0FF,#FFF0F8);border:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;gap:14px;padding:11px 0;border-bottom:1px dashed var(--line);font-size:14.5px}
+.row:last-child{border-bottom:0}
+.row span:last-child{color:var(--soft);font-family:var(--mono);font-size:13px;white-space:nowrap}
+.panel h4{font-family:var(--mono);font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--coral);margin:24px 0 4px;font-weight:600}
+.panel h4:first-of-type{margin-top:0}
+
+/* ---------- contact ---------- */
+.cta-band{
+  background:linear-gradient(125deg,var(--violet),var(--pink) 58%,var(--coral));
+  border-radius:32px;padding:60px 40px;text-align:center;color:#fff;
+  box-shadow:0 26px 60px rgba(107,78,255,.28)
+}
+.cta-band h2{font-family:var(--disp);font-weight:800;font-size:clamp(28px,4.2vw,42px);letter-spacing:-.03em;margin:0 0 14px;line-height:1.1}
+.cta-band p{margin:0 auto 30px;max-width:48ch;opacity:.94;font-size:17.5px}
+.cta-band .btn{background:#fff;color:var(--violet);box-shadow:0 8px 22px rgba(0,0,0,.16)}
+.cta-band .btn.ghost{background:rgba(255,255,255,.14);color:#fff;border-color:rgba(255,255,255,.5)}
+
+footer{padding:34px 0 44px;text-align:center;color:var(--soft);font-size:14px}
+footer a{color:var(--soft);text-decoration:none;border-bottom:1px solid var(--line)}
+footer a:hover{color:var(--violet)}
+
+/* ---------- scroll reveal ---------- */
+.reveal{opacity:0;transform:translateY(26px);transition:opacity .7s cubic-bezier(.2,.7,.3,1),transform .7s cubic-bezier(.2,.7,.3,1)}
+.reveal.in{opacity:1;transform:none}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  .reveal{opacity:1;transform:none;transition:none}
+  *{animation:none!important}
+  .card:hover,.btn:hover{transform:none}
+}
+
+/* ---------- responsive ---------- */
+@media (max-width:900px){
+  .grid{grid-template-columns:1fr}
+  .about{grid-template-columns:1fr}
+  .stats{grid-template-columns:repeat(2,1fr)}
+  .nav-links{display:none}
+  .hero{padding:56px 0 40px}
+  .cta-band{padding:44px 24px;border-radius:24px}
+  .blob{display:none}
+}
+</style>
+</head>
+<body>
+
+<div class="blob a"></div><div class="blob b"></div><div class="blob c"></div><div class="blob d"></div>
+
+<nav>
+  <div class="nav-in">
+    <a class="brand" href="#top"><span class="mark">SK</span>Shagun Khedia</a>
+    <div class="nav-links">
+      <a href="#work">Work</a>
+      <a href="#about">About</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a class="btn" href="#contact">Get in touch</a>
+  </div>
+</nav>
+
+<main id="top">
+<div class="wrap">
+
+  <!-- HERO -->
+  <header class="hero">
+    <span class="pill reveal"><span class="dot"></span>Open to analytics &amp; risk roles · 2027</span>
+    <h1 class="reveal">I find the loans that are <span class="grad">going to go bad</span> — before they do.</h1>
+    <p class="reveal">Engineer by training, finance by choice. I work on credit risk, valuation and pricing problems where the answer has to survive contact with a real book of business.</p>
+    <div class="cta-row reveal">
+      <a class="btn" href="#work">See my work</a>
+      <a class="btn ghost" href="resume.pdf">Download résumé</a>
+    </div>
+
+    <div class="stats">
+      <div class="stat reveal"><span class="n">0.97</span><span class="l">ROC-AUC on default prediction model</span></div>
+      <div class="stat reveal"><span class="n">₹10.33 Cr</span><span class="l">At-risk exposure flagged early</span></div>
+      <div class="stat reveal"><span class="n">24,626</span><span class="l">Loan applications analysed</span></div>
+      <div class="stat reveal"><span class="n">30–60d</span><span class="l">Earlier warning before default</span></div>
+    </div>
+  </header>
+
+  <!-- WORK -->
+  <section id="work">
+    <div class="sec-head reveal">
+      <p class="eyebrow">Selected work</p>
+      <h2>Four problems, four decisions</h2>
+      <p>Each of these ended in a call I had to make and defend — not just a chart.</p>
+    </div>
+
+    <div class="grid">
+
+      <!-- 1 -->
+      <article class="card reveal">
+        <div class="card-viz v1">
+          <svg viewBox="0 0 320 120" role="img" aria-label="Right-skewed distribution of predicted default probability with the upper tail flagged.">
+            <path d="M10,105 C40,103 55,26 78,18 C100,10 118,38 142,62 C178,96 215,104 310,106 L310,106 L180,106 Z" fill="#FF6B57" opacity=".28"/>
+            <path d="M180,101 C215,104 260,106 310,106 L310,106 L180,106 Z" fill="#FF6B57" opacity=".9"/>
+            <path d="M10,105 C40,103 55,26 78,18 C100,10 118,38 142,62 C178,96 215,104 310,106" fill="none" stroke="#6B4EFF" stroke-width="2.6" stroke-linecap="round"/>
+            <line x1="180" y1="6" x2="180" y2="106" stroke="#FF6B57" stroke-width="1.6" stroke-dasharray="4 4"/>
+            <line x1="10" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
+            <text x="188" y="20" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E0512F">flag threshold</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span class="tag">Credit risk</span><span class="tag o">GrayQuest</span><span class="tag t">Python</span></div>
+          <h3>An early warning system for a ₹80.76 Cr loan book</h3>
+          <p>Collections was reactive — a parent missed an instalment, then someone called. I built a probability-of-default model on 24,626 applications and turned the scores into a ranked list the team could work through on a Monday morning. Chose logistic regression over a tree ensemble because they had to see <em>why</em> an account was flagged before phoning a parent.</p>
+          <div class="metrics">
+            <div><span class="m">0.97</span><span class="k">ROC-AUC</span></div>
+            <div><span class="m">~13%</span><span class="k">of book flagged</span></div>
+            <div><span class="m">30–60d</span><span class="k">lead time</span></div>
+          </div>
+          <a class="card-link" href="#">Read the case study <span class="arw">→</span></a>
+        </div>
+      </article>
+
+      <!-- 2 -->
+      <article class="card reveal">
+        <div class="card-viz v2">
+          <svg viewBox="0 0 320 120" role="img" aria-label="Rising bar chart of loan applications over the campaign period.">
+            <line x1="10" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
+            <rect x="30" y="78" width="34" height="28" rx="6" fill="#FFB020" opacity=".55"/>
+            <rect x="86" y="62" width="34" height="44" rx="6" fill="#FFB020" opacity=".7"/>
+            <rect x="142" y="44" width="34" height="62" rx="6" fill="#FF8A4C" opacity=".8"/>
+            <rect x="198" y="26" width="34" height="80" rx="6" fill="#FF6B57"/>
+            <rect x="254" y="14" width="34" height="92" rx="6" fill="#F250A8"/>
+            <text x="254" y="8" font-family="IBM Plex Mono, monospace" font-size="10" fill="#E0512F">₹5L+</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span class="tag o">Growth analytics</span><span class="tag">GrayQuest</span></div>
+          <h3>₹5 lakh in live applications from two school chains</h3>
+          <p>A field test of whether targeted parent outreach could lift disbursements. I ran the campaign end to end and tracked applications through to funding rather than stopping at the click. Timing beat messaging by a wide margin — the fortnight before fee deadlines did most of the work.</p>
+          <div class="metrics">
+            <div><span class="m">₹5L+</span><span class="k">live applications</span></div>
+            <div><span class="m">2</span><span class="k">partner chains</span></div>
+          </div>
+          <a class="card-link" href="#">Read the case study <span class="arw">→</span></a>
+        </div>
+      </article>
+
+      <!-- 3 -->
+      <article class="card reveal">
+        <div class="card-viz v3">
+          <svg viewBox="0 0 320 120" role="img" aria-label="Three firms compared on weighted average cost of capital, ranging 14.4 to 18 percent.">
+            <line x1="60" y1="14" x2="60" y2="106" stroke="#1C1338" stroke-width="1" opacity=".2"/>
+            <rect x="60" y="22" width="150" height="20" rx="10" fill="#0FB5A6" opacity=".85"/>
+            <rect x="60" y="52" width="196" height="20" rx="10" fill="#6B4EFF" opacity=".8"/>
+            <rect x="60" y="82" width="232" height="20" rx="10" fill="#F250A8" opacity=".85"/>
+            <text x="216" y="37" font-family="IBM Plex Mono, monospace" font-size="11" fill="#0A8C80">14.4%</text>
+            <text x="262" y="67" font-family="IBM Plex Mono, monospace" font-size="11" fill="#6B4EFF">16.2%</text>
+            <text x="298" y="97" font-family="IBM Plex Mono, monospace" font-size="11" fill="#C4267F" text-anchor="end">18.0%</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span class="tag t">Valuation</span><span class="tag">CAPM · WACC</span></div>
+          <h3>Why three gas distributors cost different money</h3>
+          <p>I estimated the cost of capital for three listed City Gas Distribution firms, expecting capital structure to explain the spread. It didn't — the difference traced almost entirely to equity beta, the market's read on each firm's regulatory and volume risk. At an 18% hurdle rate you reject projects a 14.4% peer would fund.</p>
+          <div class="metrics">
+            <div><span class="m">3</span><span class="k">listed firms</span></div>
+            <div><span class="m">14.4–18%</span><span class="k">WACC range</span></div>
+          </div>
+          <a class="card-link" href="#">See the model <span class="arw">→</span></a>
+        </div>
+      </article>
+
+      <!-- 4 -->
+      <article class="card reveal">
+        <div class="card-viz v4">
+          <svg viewBox="0 0 320 120" role="img" aria-label="Downward sloping demand curve with the chosen price point marked.">
+            <line x1="14" y1="106" x2="310" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
+            <line x1="14" y1="10" x2="14" y2="106" stroke="#1C1338" stroke-width="1" opacity=".22"/>
+            <path d="M26,18 C90,42 150,68 300,100" fill="none" stroke="#6B4EFF" stroke-width="2.6" stroke-linecap="round"/>
+            <line x1="150" y1="68" x2="150" y2="106" stroke="#F250A8" stroke-width="1.4" stroke-dasharray="4 4"/>
+            <line x1="14" y1="68" x2="150" y2="68" stroke="#F250A8" stroke-width="1.4" stroke-dasharray="4 4"/>
+            <circle cx="150" cy="68" r="7" fill="#F250A8"/>
+            <circle cx="150" cy="68" r="13" fill="#F250A8" opacity=".22"/>
+            <text x="164" y="60" font-family="IBM Plex Mono, monospace" font-size="10" fill="#C4267F">price set here</text>
+          </svg>
+        </div>
+        <div class="card-body">
+          <div class="tags"><span class="tag">Pricing</span><span class="tag t">Regression</span></div>
+          <h3>Pricing a micro venture off its own demand curve</h3>
+          <p>Real inventory, real money. Instead of pricing on gut I fit a demand curve from early sales, estimated elasticity and repriced against it — demand turned out less elastic than assumed, so the opening price was leaving margin behind. Same method applied to 1,500+ car-pricing observations to isolate what actually moves price.</p>
+          <div class="metrics">
+            <div><span class="m">50%</span><span class="k">net profit</span></div>
+            <div><span class="m">1,500+</span><span class="k">observations modelled</span></div>
+          </div>
+          <a class="card-link" href="#">See the analysis <span class="arw">→</span></a>
+        </div>
+      </article>
+
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section id="about">
+    <div class="sec-head reveal">
+      <p class="eyebrow">About</p>
+      <h2>Computer science first, finance second</h2>
+    </div>
+    <div class="about">
+      <div class="panel reveal">
+        <h3>Hello — I'm Shagun</h3>
+        <p>I did a B.Tech in computer science and then went looking for problems where the code was the easy part. Credit risk turned out to be exactly that: the modelling is well-trodden, and the hard question is always what a business should <em>do</em> with a number once it has one.</p>
+        <p>I'm in the second year of my PGDM at Great Lakes, Gurgaon, working towards analytics and risk roles in financial services. What I enjoy sits at the join — a model that changes a workflow, a valuation that changes an investment decision, a price that changes a demand curve.</p>
+        <p>Outside coursework I compete in inter-collegiate and national case competitions, and I've taught programming to a class of thirty students, which is still the fastest way I know to find out whether you actually understand something.</p>
+        <div class="tools">
+          <span>Python</span><span>Excel modelling</span><span>SQL</span><span>Logistic regression</span><span>CAPM / WACC</span><span>Power BI</span><span>Market research</span><span>Generative AI tools</span>
+        </div>
+      </div>
+      <div class="panel reveal">
+        <h4>Education</h4>
+        <div class="row"><span>PGDM, Great Lakes Gurgaon</span><span>2025–27</span></div>
+        <div class="row"><span>B.Tech CSE, Techno India</span><span>8.31/10</span></div>
+        <h4>Certifications</h4>
+        <div class="row"><span>Data for Business Analysts, Excel</span><span>Microsoft</span></div>
+        <div class="row"><span>Data Visualisation</span><span>Tata</span></div>
+        <div class="row"><span>Project Management Foundations</span><span>PMI</span></div>
+        <div class="row"><span>AI Essentials</span><span>Google</span></div>
+        <h4>Languages</h4>
+        <div class="row"><span>English, Hindi, Bengali</span><span></span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact">
+    <div class="cta-band reveal">
+      <h2>Let's talk about risk, pricing or valuation</h2>
+      <p>I'm looking for analytics and risk roles in financial services from 2027, and I'm always up for a conversation about a hard modelling problem.</p>
+      <div class="cta-row">
+        <a class="btn" href="mailto:shagunkhedia40@gmail.com">Email me</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/shag40/">LinkedIn</a>
+        <a class="btn ghost" href="https://github.com/YOUR-HANDLE">GitHub</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+</main>
+
+<footer>
+  <div class="wrap">Built by Shagun Khedia · <a href="resume.pdf">Résumé</a> · <a href="mailto:shagunkhedia40@gmail.com">shagunkhedia40@gmail.com</a></div>
+</footer>
+
+<script>
+(function(){
+  var els = document.querySelectorAll('.reveal');
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches || !('IntersectionObserver' in window)) {
+    els.forEach(function(el){ el.classList.add('in'); });
+    return;
+  }
+  var io = new IntersectionObserver(function(entries){
+    entries.forEach(function(e){
+      if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+  els.forEach(function(el, i){
+    el.style.transitionDelay = (Math.min(i, 4) * 70) + 'ms';
+    io.observe(el);
+  });
+})();
+</script>
+</body>
+</html>
