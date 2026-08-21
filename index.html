@@ -122,7 +122,7 @@ section{padding:76px 0}
 .tag.t{background:#E4F7F4;color:#0A8C80}
 .card h3{font-family:var(--disp);font-weight:700;font-size:21px;letter-spacing:-.02em;line-height:1.25;margin:0 0 11px}
 .card p{margin:0 0 16px;color:var(--soft);font-size:15.5px;flex:1}
-.metrics{display:flex;gap:22px;padding-top:16px;border-top:1px solid var(--line);margin-bottom:16px}
+.metrics{display:flex;flex-wrap:wrap;gap:14px 22px;padding-top:16px;border-top:1px solid var(--line);margin-bottom:16px}
 .metrics div{min-width:0}
 .metrics .m{font-family:var(--mono);font-weight:600;font-size:17px;display:block;font-variant-numeric:tabular-nums}
 .metrics .k{font-size:11.5px;color:var(--soft);letter-spacing:.03em}
@@ -213,7 +213,7 @@ footer a:hover{color:var(--violet)}
     <div class="stats">
       <div class="stat reveal"><span class="n">0.97</span><span class="l">ROC-AUC on default prediction model</span></div>
       <div class="stat reveal"><span class="n">₹10.33 Cr</span><span class="l">At-risk exposure flagged early</span></div>
-      <div class="stat reveal"><span class="n">24,626</span><span class="l">Loan applications analysed</span></div>
+      <div class="stat reveal"><span class="n">₹5.31 Cr</span><span class="l">ECL provision gap identified (Ind AS 109)</span></div>
       <div class="stat reveal"><span class="n">30–60d</span><span class="l">Earlier warning before default</span></div>
     </div>
   </header>
@@ -241,15 +241,17 @@ footer a:hover{color:var(--violet)}
           </svg>
         </div>
         <div class="card-body">
-          <div class="tags"><span class="tag">Credit risk</span><span class="tag o">GrayQuest</span><span class="tag t">Python</span></div>
+          <div class="tags"><span class="tag">Credit risk</span><span class="tag o">GrayQuest</span><span class="tag t">Python · IFRS 9</span></div>
           <h3>An early warning system for a ₹80.76 Cr loan book</h3>
-          <p>Collections was reactive — a parent missed an instalment, then someone called. I built a probability-of-default model on 24,626 applications and turned the scores into a ranked list the team could work through on a Monday morning. Chose logistic regression over a tree ensemble because they had to see <em>why</em> an account was flagged before phoning a parent.</p>
+          <p>Collections was reactive — a parent missed an instalment, then someone called. I built a probability-of-default scorecard on 24,626 applications, staged the live book under Ind AS 109, and turned the scores into a ranked worklist sorted by expected loss. Logistic regression over a tree ensemble on purpose: a credit officer has to tell a parent <em>why</em> they were declined, and a coefficient does that where a black box can't.</p>
+          <p>The finding that mattered most wasn't statistical. 233 repeat defaulters were holding live loans and only 23% had been through a personal discussion before re-approval — a process gap fixable in a week, with no model required.</p>
           <div class="metrics">
             <div><span class="m">0.97</span><span class="k">ROC-AUC</span></div>
-            <div><span class="m">~13%</span><span class="k">of book flagged</span></div>
+            <div><span class="m">₹10.33 Cr</span><span class="k">at-risk flagged</span></div>
+            <div><span class="m">₹5.31 Cr</span><span class="k">ECL provision</span></div>
             <div><span class="m">30–60d</span><span class="k">lead time</span></div>
           </div>
-          <a class="card-link" href="#">Read the case study <span class="arw">→</span></a>
+          <a class="card-link" href="https://github.com/shaggy40/credit-risk-early-warning">Code, notebook and full write-up <span class="arw">→</span></a>
         </div>
       </article>
 
@@ -269,12 +271,12 @@ footer a:hover{color:var(--violet)}
         <div class="card-body">
           <div class="tags"><span class="tag o">Growth analytics</span><span class="tag">GrayQuest</span></div>
           <h3>₹5 lakh in live applications from two school chains</h3>
-          <p>A field test of whether targeted parent outreach could lift disbursements. I ran the campaign end to end and tracked applications through to funding rather than stopping at the click. Timing beat messaging by a wide margin — the fortnight before fee deadlines did most of the work.</p>
+          <p>A field test of whether targeted parent outreach could lift disbursements. I ran the campaign end to end and tracked applications through to funding rather than stopping at the click. Timing beat messaging by a wide margin — the fortnight before fee deadlines did most of the work. The same timing insight showed up in the risk data: 21% of post-credit back-outs had simply paid the school before approval came through, a service-level problem wearing a credit-risk costume.</p>
           <div class="metrics">
             <div><span class="m">₹5L+</span><span class="k">live applications</span></div>
             <div><span class="m">2</span><span class="k">partner chains</span></div>
           </div>
-          <a class="card-link" href="#">Read the case study <span class="arw">→</span></a>
+          <a class="card-link" href="https://github.com/shaggy40/credit-risk-early-warning#the-problem">Read the case study <span class="arw">→</span></a>
         </div>
       </article>
 
@@ -345,7 +347,7 @@ footer a:hover{color:var(--violet)}
         <p>I'm in the second year of my PGDM at Great Lakes, Gurgaon, working towards analytics and risk roles in financial services. What I enjoy sits at the join — a model that changes a workflow, a valuation that changes an investment decision, a price that changes a demand curve.</p>
         <p>Outside coursework I compete in inter-collegiate and national case competitions, and I've taught programming to a class of thirty students, which is still the fastest way I know to find out whether you actually understand something.</p>
         <div class="tools">
-          <span>Python</span><span>Excel modelling</span><span>SQL</span><span>Logistic regression</span><span>CAPM / WACC</span><span>Power BI</span><span>Market research</span><span>Generative AI tools</span>
+          <span>Python</span><span>pandas · scikit-learn</span><span>Logistic regression</span><span>WOE / IV scorecards</span><span>Ind AS 109 / IFRS 9</span><span>Excel modelling</span><span>Power BI</span><span>SQL</span><span>CAPM / WACC</span>
         </div>
       </div>
       <div class="panel reveal">
@@ -371,7 +373,7 @@ footer a:hover{color:var(--violet)}
       <div class="cta-row">
         <a class="btn" href="mailto:shagunkhedia40@gmail.com">Email me</a>
         <a class="btn ghost" href="https://www.linkedin.com/in/shag40/">LinkedIn</a>
-        <a class="btn ghost" href="https://github.com/YOUR-HANDLE">GitHub</a>
+        <a class="btn ghost" href="https://github.com/shaggy40">GitHub</a>
       </div>
     </div>
   </section>
